@@ -1,41 +1,52 @@
 import React from "react";
 
-export default function Cart({ cartItems, removeFromCart }) {
+const CartModal = ({ isOpen, onClose, cartItems, removeFromCart }) => {
+  if (!isOpen) return null; // Если модальное окно закрыто, ничего не отображаем
+
   return (
-    <div className="container pt-8 px-6 h-screen">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-xl font-bold uppercase">Корзина</h1>
-        <button>
-          <img className="h-8" src="/src/assets/close.svg" alt="" />
-        </button>
-      </div>
-      <div>
-        {cartItems.map((item) => (
-          <div
-            key={item.id}
-            className="flex items-center justify-between border-2 rounded-xl px-2 py-2 shadow-md mb-4"
-          >
-            <div className="flex">
-              <img
-                className="h-16 mr-2"
-                src={item.image} // Предполагая, что изображение продукта есть в объекте
-                alt={item.model}
-              />
-              <div>
-                <h3 className="font-bold text-sm">
-                  {item.model} - {item.memory}
-                </h3>
-                <p className="text-md">Цвет: {item.color}</p>
-                <p className="font-bold">{item.price} руб</p>
+    <div className="fixed w-screen flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white overflow-y-auto max-w-md w-full max-h-screen p-6 rounded">
+        <img
+          onClick={onClose}
+          className="h-8 mb-6 cursor-pointer"
+          src="/src/assets/back_Arrow.svg"
+          alt="Back"
+        />
+        <h1 className="text-center font-bold text-lg mb-4">Корзина</h1>
+        {cartItems.length > 0 ? (
+          cartItems.map((item, index) => (
+            <div
+              key={index}
+              className="flex justify-between mb-4 border-b pb-2"
+            >
+              <div className="flex items-center">
+                <img
+                  className="h-16 mr-4"
+                  src={item.image} // Используем изображение товара
+                  alt={item.model}
+                />
+                <div>
+                  <h3 className="font-bold">{item.model}</h3>
+                  <p>Цвет: {item.color}</p>
+                  <p>Память: {item.memory}</p>
+                  <p className="font-semibold">{item.price} руб</p>
+                </div>
               </div>
+              <button onClick={() => removeFromCart(index)}>
+                <img
+                  className="h-8"
+                  src="/src/assets/delete.svg"
+                  alt="Удалить"
+                />
+              </button>
             </div>
-            <button onClick={() => removeFromCart(item.id)}>
-              <img className="h-8" src="/src/assets/delete.svg" alt="" />
-            </button>
-          </div>
-        ))}
-        {cartItems.length === 0 && <p>Ваша корзина пуста</p>}
+          ))
+        ) : (
+          <p className="text-center">Ваша корзина пуста</p>
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default CartModal;

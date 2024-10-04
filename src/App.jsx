@@ -9,6 +9,7 @@ import Cart from "./components/Cart";
 export default function App() {
   // const [prodList, setProdList] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для управления модальным окном
+  const [isCartOpen, setIsCartOpen] = useState(false); // Состояние для видимости корзины
   const [selectedProduct, setSelectedProduct] = useState(null); // Состояние для хранения выбранного продукта
   const [searchInput, setSearchInput] = React.useState("");
   const [cartItems, setCartItems] = React.useState([]);
@@ -143,7 +144,7 @@ export default function App() {
       tg.MainButton.show();
 
       tg.MainButton.onClick(() => {
-        setCartVisible((prevVisible) => !prevVisible); // Переключаем видимость корзины
+        setIsCartOpen(true);
       });
     } else {
       tg.MainButton.hide();
@@ -208,7 +209,10 @@ export default function App() {
         items={cartItems}
         addToCart={addToCart}
       />
-      <Cart cartItems={cartItems} />
+      <Cart
+        cartItems={cartItems}
+        onClose={() => setIsCartOpen(false)} // Закрываем корзину
+      />
       <div className="container w-full h-screen pt-4 px-2 overflow-x-hidden">
         {/* Передаем данные о продукте */}
         <div className="">
