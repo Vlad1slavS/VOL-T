@@ -89,7 +89,7 @@ export default function App() {
         addToCart={addToCart}
       />
       <Cart cartItems={cartItems} />
-      <div className="container w-full h-screen pt-4 px-2">
+      <div className="container w-full h-screen pt-4 px-2 overflow-x-hidden">
         {/* Передаем данные о продукте */}
         <div className="">
           <Header />
