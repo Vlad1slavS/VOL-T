@@ -3,7 +3,7 @@ import Slider from "react-slick";
 
 function AutoPlay() {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -35,7 +35,7 @@ function AutoPlay() {
       <Slider {...settings}>
         {slider_items.map((item, index) => (
           <div className="" key={index}>
-            <div className="bg-black max-w-md mx-auto flex justify-between px-3 items-center py-10 rounded-2xl mb-11">
+            <div className="bg-black max-w-md mx-auto flex justify-between px-3 items-center py-10 rounded-2xl mb-6">
               <div className="text-white">
                 <h2 className="inline-block text-3xl font-bold">
                   {item.title}
