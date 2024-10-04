@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Cart({ cartItems, removeFromCart }) {
   return (
-    <div className="container pt-8 px-6">
+    <div className="container pt-8 px-6 h-screen">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-xl font-bold uppercase">Корзина</h1>
         <button>
@@ -22,10 +22,10 @@ export default function Cart({ cartItems, removeFromCart }) {
                 alt={item.model}
               />
               <div>
-                <h3 className="font-bold">
+                <h3 className="font-bold text-sm">
                   {item.model} - {item.memory}
                 </h3>
-                <p>Цвет: {item.color}</p>
+                <p className="text-md">Цвет: {item.color}</p>
                 <p className="font-bold">{item.price} руб</p>
               </div>
             </div>

@@ -7,11 +7,123 @@ import PhoneInfoModal from "./components/PhoneInfoModal";
 import Cart from "./components/Cart";
 
 export default function App() {
-  const [prodList, setProdList] = useState([]);
+  // const [prodList, setProdList] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для управления модальным окном
   const [selectedProduct, setSelectedProduct] = useState(null); // Состояние для хранения выбранного продукта
   const [searchInput, setSearchInput] = React.useState("");
   const [cartItems, setCartItems] = React.useState([]);
+
+  const prodList = [
+    {
+      category: "Iphone",
+      model: "iPhone 16 PRO MAX",
+      variants: [
+        {
+          color: "Desrt-Gold",
+          specs: [
+            {
+              memory: "128Гб",
+              price: 700,
+              status: "В наличии",
+            },
+            {
+              memory: "256Гб",
+              price: 1000,
+              status: "Предзаказ",
+            },
+          ],
+          image: "src/assets/phones/16PM/GoldDesert16PM.png",
+        },
+        {
+          color: "Black",
+          specs: [
+            {
+              memory: "128Гб",
+              price: 1000,
+              status: "Под заказ",
+            },
+            {
+              memory: "256Гб",
+              price: 2000,
+              status: "Под заказ",
+            },
+            {
+              memory: "512Гб",
+              price: 3000,
+              status: "Под заказ",
+            },
+            {
+              memory: "1Тб",
+              price: 4000,
+              status: "Под заказ",
+            },
+          ],
+          image: "src/assets/phones/16PM/BlackTitanium16PM.png",
+        },
+      ],
+    },
+    {
+      category: "Iphone",
+      model: "iPhone 16",
+      variants: [
+        {
+          color: "Ultramarin",
+          specs: [
+            {
+              memory: "256Гб",
+              price: 2000,
+              status: "В наличии",
+            },
+            {
+              memory: "512Гб",
+              price: 5000,
+              status: "В наличии",
+            },
+          ],
+          image: "src/assets/phones/16/Ultramarine16.png",
+        },
+        {
+          color: "Black",
+          specs: [
+            {
+              memory: "128Гб",
+              price: 15000,
+              status: "В наличии",
+            },
+          ],
+          image: "111",
+        },
+        {
+          color: "Green",
+          specs: [
+            {
+              memory: "128Гб",
+              price: 16000,
+              status: "В наличии",
+            },
+          ],
+          image: "111",
+        },
+      ],
+    },
+    {
+      category: "Iphone",
+      model: "iphone 15",
+      variants: [
+        {
+          color: "Green",
+          specs: [
+            {
+              memory: "128Гб",
+              price: 54000,
+              status: "В наличии",
+            },
+          ],
+          image: "13333",
+        },
+      ],
+    },
+  ];
 
   const addToCart = (itemToAdd) => {
     setCartItems((prevItems) => [...prevItems, itemToAdd]);
@@ -24,32 +136,40 @@ export default function App() {
 
   const tg = window.Telegram.WebApp;
 
+  // Управление MainButton в зависимости от состояния корзины
   useEffect(() => {
-    // Управление MainButton в зависимости от состояния корзины
     if (cartItems.length > 0) {
-      tg.MainButton.setText("Перейти к оформлению");
+      tg.MainButton.setText("Показать корзину");
       tg.MainButton.show();
+
+      tg.MainButton.onClick(() => {
+        setCartVisible((prevVisible) => !prevVisible); // Переключаем видимость корзины
+      });
     } else {
       tg.MainButton.hide();
     }
+    // Очистка обработчика events прикрепленного к MainButton
+    return () => {
+      tg.MainButton.offClick();
+    };
   }, [cartItems, tg.MainButton]);
 
-  const loadProducts = async () => {
-    try {
-      const response = await fetch("./prod_list.json");
-      if (!response.ok) {
-        console.log("Ошибка при загрузке данных");
-      }
-      const data = await response.json();
-      setProdList(data);
-    } catch (error) {
-      console.error("Ошибка:", error);
-    }
-  };
+  // const loadProducts = async () => {
+  //   try {
+  //     const response = await fetch("./prod_list.json");
+  //     if (!response.ok) {
+  //       console.log("Ошибка при загрузке данных");
+  //     }
+  //     const data = await response.json();
+  //     setProdList(data);
+  //   } catch (error) {
+  //     console.error("Ошибка:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
+  // useEffect(() => {
+  //   loadProducts();
+  // }, []);
 
   // Отключаем прокрутку документа при открытии модального окна
   // Отключаем прокрутку документа при открытии модального окна

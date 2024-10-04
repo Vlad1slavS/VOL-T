@@ -16,7 +16,7 @@ const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
       color: selectedVariant.color,
       memory: selectedSpec.memory,
       price: selectedSpec.price,
-      id: `${product.model}-${selectedVariant.color}-${selectedSpec.memory}`,
+      image: selectedVariant.image,
     };
 
     addToCart(itemToAdd); // Используем переданную функцию для добавления в корзину
