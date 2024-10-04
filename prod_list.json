@@ -1,0 +1,111 @@
+[
+  {
+    "category": "Iphone",
+    "model": "iPhone 16 PRO MAX",
+    "variants": [
+      {
+        "color": "Desrt-Gold",
+        "specs": [
+          {
+            "memory": "128Гб",
+            "price": 700,
+            "status": "В наличии"
+          },
+          {
+            "memory": "256Гб",
+            "price": 1000,
+            "status": "Предзаказ"
+          }
+        ],
+        "image": "src/assets/phones/16PM/GoldDesert16PM.png"
+      },
+      {
+        "color": "Black",
+        "specs": [
+          {
+            "memory": "128Гб",
+            "price": 1000,
+            "status": "Под заказ"
+          },
+          {
+            "memory": "256Гб",
+            "price": 2000,
+            "status": "Под заказ"
+          },
+          {
+            "memory": "512Гб",
+            "price": 3000,
+            "status": "Под заказ"
+          },
+          {
+            "memory": "1Тб",
+            "price": 4000,
+            "status": "Под заказ"
+          }
+        ],
+        "image": "src/assets/phones/16PM/BlackTitanium16PM.png"
+      }
+    ]
+  },
+  {
+    "category": "Iphone",
+    "model": "iPhone 16",
+    "variants": [
+      {
+        "color": "Ultramarin",
+        "specs": [
+          {
+            "memory": "256Гб",
+            "price": 2000,
+            "status": "В наличии"
+          },
+          {
+            "memory": "512Гб",
+            "price": 5000,
+            "status": "В наличии"
+          }
+        ],
+        "image": "src/assets/phones/16/Ultramarine16.png"
+      },
+      {
+        "color": "Black",
+        "specs": [
+          {
+            "memory": "128Гб",
+            "price": 15000,
+            "status": "В наличии"
+          }
+        ],
+        "image": "111"
+      },
+      {
+        "color": "Green",
+        "specs": [
+          {
+            "memory": "128Гб",
+            "price": 16000,
+            "status": "В наличии"
+          }
+        ],
+        "image": "111"
+      }
+    ]
+  },
+  {
+    "category": "Iphone",
+    "model": "iphone 15",
+    "variants": [
+      {
+        "color": "Green",
+        "specs": [
+          {
+            "memory": "128Гб",
+            "price": 54000,
+            "status": "В наличии"
+          }
+        ],
+        "image": "13333"
+      }
+    ]
+  }
+]
