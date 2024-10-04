@@ -32,7 +32,7 @@ export default function Cart({ isOpen, onClose, cartItems, removeFromCart }) {
                   <p className="font-semibold">{item.price} руб</p>
                 </div>
               </div>
-              <button onClick={() => removeFromCart(index)}>
+              <button onClick={() => removeFromCart(item.id)}>
                 <img
                   className="h-8"
                   src="src/assets/delete.svg"

@@ -12,7 +12,11 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false); // Состояние для видимости корзины
   const [selectedProduct, setSelectedProduct] = useState(null); // Состояние для хранения выбранного продукта
   const [searchInput, setSearchInput] = React.useState("");
-  const [cartItems, setCartItems] = React.useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCartItems = localStorage.getItem("cartItems");
+    return savedCartItems ? JSON.parse(savedCartItems) : [];
+  });
+  const [selectedCategory, setSelectedCategory] = React.useState("Iphone");
 
   const prodList = [
     {
@@ -126,9 +130,28 @@ export default function App() {
     },
   ];
 
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const saveCartToLocalStorage = () => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  };
+
+  // Загрузка корзины из localStorage
+  const loadCartFromLocalStorage = () => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+  };
+
   const addToCart = (itemToAdd) => {
     setCartItems((prevItems) => [...prevItems, itemToAdd]);
-    console.log("Товар добавлен в корзину):", itemToAdd);
+  };
+
+  const removeFromCart = (itemId) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
   const onChangeSearchInput = (event) => {
@@ -168,9 +191,10 @@ export default function App() {
   //   }
   // };
 
-  // useEffect(() => {
-  //   loadProducts();
-  // }, []);
+  useEffect(() => {
+    // loadProducts();
+    loadCartFromLocalStorage();
+  }, []);
 
   // Отключаем прокрутку документа при открытии модального окна
   // Отключаем прокрутку документа при открытии модального окна
@@ -211,6 +235,7 @@ export default function App() {
       />
       <Cart
         cartItems={cartItems}
+        removeFromCart={(itemId) => removeFromCart(itemId)}
         onClose={() => setIsCartOpen(false)} // Закрываем корзину
         isOpen={isCartOpen}
       />
@@ -230,18 +255,40 @@ export default function App() {
                 src="src/assets/Filter.svg"
                 alt=""
               ></img>
-              <p className="font-bold text-lg text-black bg-[#F1F1F1] px-4 py-2 rounded-2xl mr-3">
+              <button
+                className={` text-lg h-10 bg-[#F1F1F1] px-4 py-2 rounded-xl mr-3 ${
+                  selectedCategory === "Iphone" ? "bg-[#e1e1e1] font-bold" : ""
+                }`}
+                onClick={() => setSelectedCategory("Iphone")}
+              >
                 Iphone
-              </p>
-              <p className="text-lg text-black bg-[#F1F1F1]  px-4 py-2 rounded-2xl mr-3">
+              </button>
+              <button
+                className={`text-lg text-black bg-[#F1F1F1]  px-4 py-2 rounded-xl mr-3 ${
+                  selectedCategory === "Macbook" ? "bg-[#e1e1e1] font-bold" : ""
+                }`}
+                onClick={() => setSelectedCategory("Macbook")}
+              >
                 Macbook
-              </p>
-              <p className="text-lg text-black bg-[#F1F1F1]  px-4 py-2 rounded-2xl mr-3">
+              </button>
+              <button
+                className={`text-lg text-black bg-[#F1F1F1]  px-4 py-2 rounded-xl mr-3 ${
+                  selectedCategory === "AirPods" ? "bg-[#e1e1e1] font-bold" : ""
+                }`}
+                onClick={() => setSelectedCategory("AirPods")}
+              >
                 AirPods
-              </p>
-              <p className="text-lg text-black bg-[#F1F1F1]  px-4 py-2 rounded-2xl mr-3">
+              </button>
+              <button
+                className={`text-lg text-black bg-[#F1F1F1]  px-4 py-2 rounded-xl mr-3 ${
+                  selectedCategory === "Аксесуары"
+                    ? "bg-[#e1e1e1] font-bold"
+                    : ""
+                }`}
+                onClick={() => setSelectedCategory("Аксесуары")}
+              >
                 Аксесуары
-              </p>
+              </button>
             </div>
           </div>
           <div className="text-center mt-8 bg-gray-100 items-center flex px-2 py-3 border-2 border-gray-400 rounded-xl">
@@ -258,6 +305,7 @@ export default function App() {
           </div>
           <div className="justify-center grid grid-cols-2 gap-2 text-black mt-10">
             {prodList
+              .filter((item) => item.category === selectedCategory)
               .filter((item) =>
                 item.model.toLowerCase().includes(searchInput.toLowerCase())
               )

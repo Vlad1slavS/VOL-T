@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
@@ -12,6 +13,7 @@ const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
 
   const handleAddToCart = () => {
     const itemToAdd = {
+      id: uuidv4(),
       model: product.model,
       color: selectedVariant.color,
       memory: selectedSpec.memory,
