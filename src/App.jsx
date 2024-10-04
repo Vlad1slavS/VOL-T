@@ -15,7 +15,7 @@ export default function App() {
 
   const addToCart = (itemToAdd) => {
     setCartItems((prevItems) => [...prevItems, itemToAdd]);
-    console.log("Товар добавлен в корзину:", itemToAdd);
+    console.log("Товар добавлен в корзину):", itemToAdd);
   };
 
   const onChangeSearchInput = (event) => {
