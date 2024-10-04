@@ -25,11 +25,11 @@ const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
 
   return (
     <div className="fixed w-screen flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white overflow-y-auto max-w-md w-full max-h-screen">
+      <div className="bg-white overflow-y-auto w-full h-screen">
         <img
           onClick={onClose}
           className="h-8 mt-6 inline-block pl-4"
-          src="/src/assets/back_Arrow.svg"
+          src="src/assets/back_Arrow.svg"
           alt=""
         />
         <div className="text-center">

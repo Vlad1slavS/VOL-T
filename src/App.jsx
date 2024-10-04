@@ -212,6 +212,7 @@ export default function App() {
       <Cart
         cartItems={cartItems}
         onClose={() => setIsCartOpen(false)} // Закрываем корзину
+        isOpen={isCartOpen}
       />
       <div className="container w-full h-screen pt-4 px-2 overflow-x-hidden">
         {/* Передаем данные о продукте */}
@@ -220,7 +221,8 @@ export default function App() {
           <h1 className="text-3xl font-bold text-black text-center mb-6">
             Что нового?
           </h1>
-          {!isModalOpen && <AutoPlay />}
+          <button onClick={() => setIsCartOpen(true)}>1111</button>
+          {!isModalOpen && !isCartOpen && <AutoPlay />}
           <div className="scrollbar_categories overflow-x-scroll whitespace-nowrap scrollbar-hide scrollbar-w mt-6">
             <div className="flex">
               <img

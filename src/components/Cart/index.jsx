@@ -1,15 +1,15 @@
 import React from "react";
+import "./style.css";
 
-const CartModal = ({ isOpen, onClose, cartItems, removeFromCart }) => {
-  if (!isOpen) return null; // Если модальное окно закрыто, ничего не отображаем
-
+export default function Cart({ isOpen, onClose, cartItems, removeFromCart }) {
+  if (!isOpen) return null;
   return (
     <div className="fixed w-screen flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white overflow-y-auto max-w-md w-full max-h-screen p-6 rounded">
+      <div className="bg-white overflow-y-auto w-full h-screen p-6 cart-container">
         <img
           onClick={onClose}
           className="h-8 mb-6 cursor-pointer"
-          src="/src/assets/back_Arrow.svg"
+          src="src/assets/close.svg"
           alt="Back"
         />
         <h1 className="text-center font-bold text-lg mb-4">Корзина</h1>
@@ -35,7 +35,7 @@ const CartModal = ({ isOpen, onClose, cartItems, removeFromCart }) => {
               <button onClick={() => removeFromCart(index)}>
                 <img
                   className="h-8"
-                  src="/src/assets/delete.svg"
+                  src="src/assets/delete.svg"
                   alt="Удалить"
                 />
               </button>
@@ -47,6 +47,4 @@ const CartModal = ({ isOpen, onClose, cartItems, removeFromCart }) => {
       </div>
     </div>
   );
-};
-
-export default CartModal;
+}
