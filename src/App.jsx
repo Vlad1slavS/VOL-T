@@ -204,7 +204,7 @@ export default function App() {
     return () => {
       tg.MainButton.offClick();
     };
-  }, [cartItems, tg.MainButton]);
+  }, [cartItems, isCartOpen]);
 
   // const loadProducts = async () => {
   //   try {
