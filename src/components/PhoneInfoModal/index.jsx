@@ -14,6 +14,7 @@ const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
   const handleAddToCart = () => {
     const itemToAdd = {
       id: uuidv4(),
+      category: product.category,
       model: product.model,
       color: selectedVariant.color,
       memory: selectedSpec.memory,
