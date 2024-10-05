@@ -188,12 +188,13 @@ export default function App() {
   // Управление MainButton в зависимости от состояния корзины
   useEffect(() => {
     if (cartItems.length > 0) {
-      tg.MainButton.setText("Показать корзину");
-      tg.MainButton.onClick(() => setIsCartOpen(true));
       if (isCartOpen) {
         const totalPrepayment = calculatePrepaymentAmount(cartItems);
         tg.MainButton.setText(`Предоплата ${totalPrepayment}`);
         tg.MainButton.onClick();
+      } else {
+        tg.MainButton.setText("Показать корзину");
+        tg.MainButton.onClick(() => setIsCartOpen(true));
       }
       tg.MainButton.show();
     } else {
