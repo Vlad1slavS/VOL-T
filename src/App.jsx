@@ -13,7 +13,7 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState(null); // Состояние для хранения выбранного продукта
   const [searchInput, setSearchInput] = React.useState("");
   const [cartItems, setCartItems] = useState(() => {
-    const savedCartItems = localStorage.getItem("cartItems");
+    const savedCartItems = localStorage.getItem("VOLTCart");
     return savedCartItems ? JSON.parse(savedCartItems) : [];
   });
   const [selectedCategory, setSelectedCategory] = React.useState("Iphone");
@@ -130,8 +130,33 @@ export default function App() {
     },
   ];
 
+  // Функция для вычисления суммы предоплаты
+  const calculatePrepaymentAmount = (cartItems) => {
+    return cartItems.reduce((totalPrepayment, item) => {
+      // Предполагается, что item.type содержит категорию товара (iphone, macbook, ipad, airpods, аксессуар)
+      const itemType = item.category.toLowerCase();
+
+      // Проверяем тип товара и назначаем соответствующую сумму предоплаты
+      if (
+        itemType === "iphone" ||
+        itemType === "macbook" ||
+        itemType === "ipad"
+      ) {
+        return totalPrepayment + 5000; // добавляем 5000 за каждый товар из этой категории
+      } else if (itemType === "airpods" || itemType === "аксессуар") {
+        return totalPrepayment + 2000; // добавляем 2000 за каждый товар из этой категории
+      } else {
+        return totalPrepayment;
+      }
+    }, 0);
+  };
+
+  // Вызов функции
+  const totalPrepayment = calculatePrepaymentAmount(cartItems);
+  console.log(`Сумма предоплаты: ${totalPrepayment} руб`);
+
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem("VOLTCart", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const saveCartToLocalStorage = () => {
@@ -163,12 +188,15 @@ export default function App() {
   // Управление MainButton в зависимости от состояния корзины
   useEffect(() => {
     if (cartItems.length > 0) {
-      tg.MainButton.setText("Показать корзину");
+      if (isCartOpen) {
+        const totalPrepayment = calculatePrepaymentAmount(cartItems);
+        tg.MainButton.setText(`Предоплата ${totalPrepayment}`);
+        tg.MainButton.onClick();
+      } else {
+        tg.MainButton.setText("Показать корзину");
+        tg.MainButton.onClick(() => setIsCartOpen(true));
+      }
       tg.MainButton.show();
-
-      tg.MainButton.onClick(() => {
-        setIsCartOpen(true);
-      });
     } else {
       tg.MainButton.hide();
     }
