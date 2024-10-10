@@ -6,4 +6,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   base: "/VOL-T/", // YOUR REPO NAME HERE
+  server: {
+    port: 3000,
+  },
 });

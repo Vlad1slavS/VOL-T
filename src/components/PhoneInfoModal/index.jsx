@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./style.css";
 import { v4 as uuidv4 } from "uuid";
 
 const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
@@ -28,7 +29,7 @@ const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
 
   return (
     <div className="fixed w-screen flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white overflow-y-auto w-full h-screen">
+      <div className="bg-white overflow-y-auto w-full h-screen modal_container">
         <img
           onClick={onClose}
           className="h-8 mt-6 inline-block pl-4"
@@ -64,7 +65,7 @@ const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
               <div
                 key={index}
                 onClick={() => setSelectedColorIndex(index)}
-                className={`cursor-pointer p-2 m-1 rounded ${
+                className={`cursor-pointer text-sm p-2 m-1 rounded ${
                   index === selectedColorIndex
                     ? "bg-blue-500 text-white"
                     : "bg-gray-300 text-black"
@@ -97,7 +98,7 @@ const PhoneInfoModal = ({ isOpen, onClose, product, addToCart }) => {
             onClick={handleAddToCart}
             className="mt-4 bg-gray-300 rounded py-2 px-4"
           >
-            "В корзину"
+            В корзину
           </button>
         </div>
       </div>

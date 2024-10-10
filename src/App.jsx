@@ -5,9 +5,9 @@ import AutoPlay from "./components/Slider";
 import MenuCart from "./components/MenuCart";
 import PhoneInfoModal from "./components/PhoneInfoModal";
 import Cart from "./components/Cart";
+import axios from "axios";
 
 export default function App() {
-  // const [prodList, setProdList] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для управления модальным окном
   const [isCartOpen, setIsCartOpen] = useState(false); // Состояние для видимости корзины
   const [selectedProduct, setSelectedProduct] = useState(null); // Состояние для хранения выбранного продукта
@@ -17,118 +17,21 @@ export default function App() {
     return savedCartItems ? JSON.parse(savedCartItems) : [];
   });
   const [selectedCategory, setSelectedCategory] = React.useState("Iphone");
+  const [products, setProducts] = useState([]);
 
-  const prodList = [
-    {
-      category: "Iphone",
-      model: "iPhone 16 PRO MAX",
-      variants: [
-        {
-          color: "Desrt-Gold",
-          specs: [
-            {
-              memory: "128Гб",
-              price: 700,
-              status: "В наличии",
-            },
-            {
-              memory: "256Гб",
-              price: 1000,
-              status: "Предзаказ",
-            },
-          ],
-          image: "src/assets/phones/16PM/GoldDesert16PM.png",
-        },
-        {
-          color: "Black",
-          specs: [
-            {
-              memory: "128Гб",
-              price: 1000,
-              status: "Под заказ",
-            },
-            {
-              memory: "256Гб",
-              price: 2000,
-              status: "Под заказ",
-            },
-            {
-              memory: "512Гб",
-              price: 3000,
-              status: "Под заказ",
-            },
-            {
-              memory: "1Тб",
-              price: 4000,
-              status: "Под заказ",
-            },
-          ],
-          image: "src/assets/phones/16PM/BlackTitanium16PM.png",
-        },
-      ],
-    },
-    {
-      category: "Iphone",
-      model: "iPhone 16",
-      variants: [
-        {
-          color: "Ultramarin",
-          specs: [
-            {
-              memory: "256Гб",
-              price: 2000,
-              status: "В наличии",
-            },
-            {
-              memory: "512Гб",
-              price: 5000,
-              status: "В наличии",
-            },
-          ],
-          image: "src/assets/phones/16/Ultramarine16.png",
-        },
-        {
-          color: "Black",
-          specs: [
-            {
-              memory: "128Гб",
-              price: 15000,
-              status: "В наличии",
-            },
-          ],
-          image: "111",
-        },
-        {
-          color: "Green",
-          specs: [
-            {
-              memory: "128Гб",
-              price: 16000,
-              status: "В наличии",
-            },
-          ],
-          image: "111",
-        },
-      ],
-    },
-    {
-      category: "Iphone",
-      model: "iphone 15",
-      variants: [
-        {
-          color: "Green",
-          specs: [
-            {
-              memory: "128Гб",
-              price: 54000,
-              status: "В наличии",
-            },
-          ],
-          image: "13333",
-        },
-      ],
-    },
-  ];
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/products");
+      const data = response.data; // Axios автоматически парсит JSON
+      const iPhones = Object.values(data);
+      console.log(data);
+      setProducts(iPhones); // обновляем состояние products
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []); // добавляем пустой массив зависимостей, чтобы функция вызывалась только один раз
 
   // Функция для вычисления суммы предоплаты
   const calculatePrepaymentAmount = (cartItems) => {
@@ -150,10 +53,6 @@ export default function App() {
       }
     }, 0);
   };
-
-  // Вызов функции
-  const totalPrepayment = calculatePrepaymentAmount(cartItems);
-  console.log(`Сумма предоплаты: ${totalPrepayment} руб`);
 
   useEffect(() => {
     localStorage.setItem("VOLTCart", JSON.stringify(cartItems));
@@ -191,7 +90,48 @@ export default function App() {
       if (isCartOpen) {
         const totalPrepayment = calculatePrepaymentAmount(cartItems);
         tg.MainButton.setText(`Предоплата ${totalPrepayment}`);
-        tg.MainButton.onClick();
+        tg.MainButton.onClick(async () => {
+          try {
+            const response = await fetch(
+              `https://api.telegram.org/bot7830781097:AAF3fIRBkXojZ4S2jh3XPCWukbNhs_UWelA/createInvoiceLink`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  title: "Предоплата вашего заказа",
+                  description: "Заказ",
+                  payload: "some-payload",
+                  provider_token:
+                    "401643678:TEST:52b29ae0-2cac-4077-83f5-f7670e014f5b",
+                  currency: "RUB",
+                  prices: [
+                    {
+                      label: "Предоплата",
+                      amount: 1000 * 100,
+                    },
+                  ],
+                  start_parameter: "payment",
+                }),
+              }
+            );
+            if (response.ok) {
+              const data = await response.json();
+              if (data.ok && data.result) {
+                window.open(data.result, "_blank");
+              } else {
+                alert("Ошибка при создании инвойса: некорректный ответ");
+              }
+            } else {
+              console.error("Ответ с ошибкой:", await response.text()); // Логируем текст ошибки
+              alert("Не удалось отправить запрос на сервер");
+            }
+          } catch (error) {
+            console.error("Ошибка при создании инвойса:", error);
+            alert("Возникла ошибка при создании инвойса");
+          }
+        });
       } else {
         tg.MainButton.setText("Показать корзину");
         tg.MainButton.onClick(() => setIsCartOpen(true));
@@ -204,20 +144,7 @@ export default function App() {
     return () => {
       tg.MainButton.offClick();
     };
-  }, [cartItems, isCartOpen]);
-
-  // const loadProducts = async () => {
-  //   try {
-  //     const response = await fetch("./prod_list.json");
-  //     if (!response.ok) {
-  //       console.log("Ошибка при загрузке данных");
-  //     }
-  //     const data = await response.json();
-  //     setProdList(data);
-  //   } catch (error) {
-  //     console.error("Ошибка:", error);
-  //   }
-  // };
+  }, [cartItems, isCartOpen, tg.MainButton]);
 
   useEffect(() => {
     // loadProducts();
@@ -274,7 +201,6 @@ export default function App() {
           <h1 className="text-3xl font-bold text-black text-center mb-6">
             Что нового?
           </h1>
-          <button onClick={() => setIsCartOpen(true)}>1111</button>
           {!isModalOpen && !isCartOpen && <AutoPlay />}
           <div className="scrollbar_categories overflow-x-scroll whitespace-nowrap scrollbar-hide scrollbar-w mt-6">
             <div className="flex">
@@ -332,26 +258,29 @@ export default function App() {
             />
           </div>
           <div className="justify-center grid grid-cols-2 gap-2 text-black mt-10">
-            {prodList
-              .filter((item) => item.category === selectedCategory)
+            {products
+              .filter(
+                (item) =>
+                  item.category.toLowerCase() === selectedCategory.toLowerCase()
+              )
               .filter((item) =>
                 item.model.toLowerCase().includes(searchInput.toLowerCase())
               )
-              .map((item, index) => (
-                <div key={index}>
-                  {item.model && (
+              .map((item) =>
+                item.variants.length > 0 ? ( // Проверка, есть ли варианты
+                  <div key={item.model}>
+                    {" "}
+                    {/* Используйте model в качестве уникального ключа */}
                     <div onClick={() => openModal(item)}>
-                      {/* Открытие модального окна при клике */}
                       <MenuCart
-                        key={index}
                         name={item.model}
-                        price={item.variants[0].specs[0].price}
-                        imageSrc={item.variants[0].image}
+                        price={item.variants[0].specs[0].price} // Выбираем первую спецификацию
+                        imageSrc={item.variants[0].image} // Берём изображение первого варианта
                       />
                     </div>
-                  )}
-                </div>
-              ))}
+                  </div>
+                ) : null
+              )}
           </div>
         </div>
       </div>

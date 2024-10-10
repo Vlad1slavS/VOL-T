@@ -21,12 +21,12 @@ function AutoPlay() {
     {
       title: "IPad Pro",
       image_link: "src/assets/iPad.png",
-      description: "Еще больше возможностей",
+      description: "Ваше творчество без границ",
     },
     {
       title: "MacBook",
-      image_link: "src/assets/phones/16/Ultramarine16.png",
-      description: "Еще больше возможностей",
+      image_link: "src/assets/Mac.png",
+      description: "Мощь и портативность",
     },
   ];
 
@@ -37,7 +37,7 @@ function AutoPlay() {
           <div className="" key={index}>
             <div className="bg-black max-w-md mx-auto flex justify-between px-3 items-center py-10 rounded-2xl mb-6">
               <div className="text-white">
-                <h2 className="inline-block text-3xl font-bold">
+                <h2 className="inline-block text-3xl font-bold ">
                   {item.title}
                 </h2>
                 <p className="text-left text-sm">{item.description}</p>

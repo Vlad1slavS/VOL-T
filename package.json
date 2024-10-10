@@ -1,5 +1,4 @@
 {
-  "homepage": "https://vol-t.github.io/VOL-T/",
   "name": "vol-t",
   "private": true,
   "version": "0.0.0",
@@ -11,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-slick": "^0.30.2",
