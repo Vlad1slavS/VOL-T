@@ -20,7 +20,7 @@ function AutoPlay() {
     },
     {
       title: "IPad Pro",
-      image_link: "src/assets/iPad.png",
+      image_link: "assets/iPad.png",
       description: "Ваше творчество без границ",
     },
     {
