@@ -93,7 +93,7 @@ export default function App() {
         tg.MainButton.onClick(async () => {
           try {
             const response = await fetch(
-              `https://api.telegram.org/bot7830781097:AAF3fIRBkXojZ4S2jh3XPCWukbNhs_UWelA/createInvoiceLink`,
+              `https://api.telegram.org/`,
               {
                 method: "POST",
                 headers: {
