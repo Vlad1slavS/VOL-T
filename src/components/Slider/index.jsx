@@ -15,7 +15,7 @@ function AutoPlay() {
   const slider_items = [
     {
       title: "Iphone 16",
-      image_link: "src/assets/iPhone16P.png",
+      image_link: "./assets/iPhone16P.png",
       description: "Еще больше возможностей",
     },
     {
@@ -25,7 +25,7 @@ function AutoPlay() {
     },
     {
       title: "MacBook",
-      image_link: "src/assets/Mac.png",
+      image_link: "./assets/Mac.png",
       description: "Мощь и портативность",
     },
   ];

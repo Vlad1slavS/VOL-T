@@ -9,7 +9,7 @@ export default function Cart({ isOpen, onClose, cartItems, removeFromCart }) {
         <img
           onClick={onClose}
           className="h-8 mb-6 cursor-pointer"
-          src="src/assets/close.svg"
+          src="./assets/close.svg"
           alt="Back"
         />
         <h1 className="text-center font-bold text-lg mb-4">Корзина</h1>
@@ -35,7 +35,7 @@ export default function Cart({ isOpen, onClose, cartItems, removeFromCart }) {
               <button onClick={() => removeFromCart(item.id)}>
                 <img
                   className="h-8"
-                  src="src/assets/delete.svg"
+                  src="./assets/delete.svg"
                   alt="Удалить"
                 />
               </button>

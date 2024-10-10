@@ -206,7 +206,7 @@ export default function App() {
             <div className="flex">
               <img
                 className="font-bold text-lg h-10 bg-[#F1F1F1] px-4 py-2 rounded-full mr-3"
-                src="src/assets/Filter.svg"
+                src="./assets/Filter.svg"
                 alt=""
               ></img>
               <button
@@ -246,7 +246,7 @@ export default function App() {
             </div>
           </div>
           <div className="text-center mt-8 bg-gray-100 items-center flex px-2 py-3 border-2 border-gray-400 rounded-xl">
-            <img className="h-6 mr-6 ml-6" src="src/assets/loop.svg" alt="" />
+            <img className="h-6 mr-6 ml-6" src="./assets/loop.svg" alt="" />
             <input
               value={searchInput}
               onChange={onChangeSearchInput}
